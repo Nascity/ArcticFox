@@ -1,21 +1,19 @@
 #include <Ntddk.h>
 #include <wdm.h>
+#include <ntifs.h>
 
 #include "af_assert.h"
 #include "init.h"
+#include "shared_mem.h"
 
 HANDLE	g_SharedMemHandle;
 PVOID	g_SharedMemAddress;
+HANDLE	g_SharedMemEventHandle;
 
 NTSTATUS
 InitSharedMemory(
 	VOID
 )
-/*
-* This function makes shared memory for
-* communication between the driver and
-* the user mode process.
-*/
 {
 	UNICODE_STRING		usSectionName = RTL_CONSTANT_STRING(SHARED_MEM_NAME);
 	LARGE_INTEGER		liMaxSize;
@@ -30,6 +28,7 @@ InitSharedMemory(
 		OBJ_KERNEL_HANDLE, NULL, NULL
 	);
 
+	// create section object
 	Status = ZwCreateSection(
 		&g_SharedMemHandle,
 		SECTION_ALL_ACCESS,
@@ -39,11 +38,11 @@ InitSharedMemory(
 		SEC_COMMIT,
 		NULL
 	);
-
 	AF_ASSERT(Status);
 
+	// create map view of section
 	stViewSize = 0;
-	return ZwMapViewOfSection(
+	Status = ZwMapViewOfSection(
 		g_SharedMemHandle,
 		ZwCurrentProcess(),
 		&g_SharedMemAddress,
@@ -54,5 +53,51 @@ InitSharedMemory(
 		ViewShare,
 		0,
 		PAGE_READWRITE
+	);
+	AF_ASSERT(Status);
+}
+
+NTSTATUS
+InitSharedMemoryEvent(
+	VOID
+)
+{
+	UNICODE_STRING		uiEventName = RTL_CONSTANT_STRING(EVENT_NAME);
+	OBJECT_ATTRIBUTES	ObjectAttribute;
+
+	InitializeObjectAttributes(
+		&ObjectAttribute,
+		&uiEventName,
+		OBJ_KERNEL_HANDLE,
+		NULL,
+		NULL
+	);
+
+	return ZwCreateEvent(
+		&g_SharedMemEventHandle,
+		EVENT_ALL_ACCESS,
+		&ObjectAttribute,
+		NotificationEvent,
+		FALSE
+	);
+}
+
+VOID
+WriteToSharedMem(
+	PVOID	pData,
+	SIZE_T	stWriteSize
+)
+{
+	SIZE_T	stRealSize;
+
+	if (stWriteSize >= SHARED_MEM_SIZE)
+		stRealSize = SHARED_MEM_SIZE;
+	else
+		stRealSize = stWriteSize;
+
+	RtlCopyMemory(
+		pData,
+		g_SharedMemAddress,
+		stRealSize
 	);
 }

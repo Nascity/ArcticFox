@@ -4,6 +4,7 @@
 
 #include "af_assert.h"
 #include "init.h"
+#include "process.h"
 
 VOID
 ArcticFoxUnload(
@@ -11,6 +12,11 @@ ArcticFoxUnload(
 )
 {
 	UNREFERENCED_PARAMETER(DriverObject);
+
+	// remove the notify routine
+	PsSetCreateProcessNotifyRoutine(
+		ProcessNotify, TRUE
+	);
 }
 
 NTSTATUS
@@ -26,8 +32,23 @@ DriverEntry(
 	// register the unload function
 	DriverObject->DriverUnload = ArcticFoxUnload;
 
+	// make communicating tunnel for user mode application
 	Status = InitSharedMemory();
 	AF_ASSERT(Status);
+	DbgPrint("[AF] Shared memory initialized.\n");
 
+	// make the event
+	Status = InitSharedMemoryEvent();
+	AF_ASSERT(Status);
+	DbgPrint("[AF] Event initialized.\n");
+
+	// register the notify function
+	Status = PsSetCreateProcessNotifyRoutine(
+		ProcessNotify, FALSE
+	);
+	AF_ASSERT(Status);
+	DbgPrint("[AF] Process notify routine registered.\n");
+
+	DbgPrint("[AF] All set!\n");
 	return STATUS_SUCCESS;
 }

@@ -5,6 +5,13 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArcticFoxCoreDrv", "ArcticFoxCoreDrv\ArcticFoxCoreDrv.vcxproj", "{F51EE62A-089C-40A7-A36D-6B52F27A6024}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArcticFoxUserland", "ArcticFoxUserland\ArcticFoxUserland.vcxproj", "{14E7A9A7-72E4-43AE-AE5E-6D01A4066678}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4B2FEAA8-58DA-4915-A8EE-DA70FE7921DF}"
+	ProjectSection(SolutionItems) = preProject
+		data.h = data.h
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -25,6 +32,14 @@ Global
 		{F51EE62A-089C-40A7-A36D-6B52F27A6024}.Release|x64.ActiveCfg = Release|x64
 		{F51EE62A-089C-40A7-A36D-6B52F27A6024}.Release|x64.Build.0 = Release|x64
 		{F51EE62A-089C-40A7-A36D-6B52F27A6024}.Release|x64.Deploy.0 = Release|x64
+		{14E7A9A7-72E4-43AE-AE5E-6D01A4066678}.Debug|ARM64.ActiveCfg = Debug|x64
+		{14E7A9A7-72E4-43AE-AE5E-6D01A4066678}.Debug|ARM64.Build.0 = Debug|x64
+		{14E7A9A7-72E4-43AE-AE5E-6D01A4066678}.Debug|x64.ActiveCfg = Debug|x64
+		{14E7A9A7-72E4-43AE-AE5E-6D01A4066678}.Debug|x64.Build.0 = Debug|x64
+		{14E7A9A7-72E4-43AE-AE5E-6D01A4066678}.Release|ARM64.ActiveCfg = Release|x64
+		{14E7A9A7-72E4-43AE-AE5E-6D01A4066678}.Release|ARM64.Build.0 = Release|x64
+		{14E7A9A7-72E4-43AE-AE5E-6D01A4066678}.Release|x64.ActiveCfg = Release|x64
+		{14E7A9A7-72E4-43AE-AE5E-6D01A4066678}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

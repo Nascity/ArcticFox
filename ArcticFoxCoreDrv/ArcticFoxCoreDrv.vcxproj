@@ -106,9 +106,12 @@
   <ItemGroup>
     <ClInclude Include="af_assert.h" />
     <ClInclude Include="init.h" />
+    <ClInclude Include="process.h" />
+    <ClInclude Include="shared_mem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
+    <ClCompile Include="process.c" />
     <ClCompile Include="shared_mem.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
