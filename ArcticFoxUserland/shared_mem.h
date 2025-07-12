@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include "../data.h"
 
-#define SHARED_MEM_NAME		L"Global\\ArcticFoxSharedMem"
+#define SHARED_MEM_NAME		L"ArcticFoxSharedMem"
 
 BOOL
 InitSharedMem(

@@ -28,11 +28,14 @@ wmain(
 	}
 	wprintf(L"InitSharedMem successful.\n");
 
-	ReadFromSharedMem(
-		&bd, sizeof(bd)
-	);
+	while (TRUE)
+	{
+		ReadFromSharedMem(
+			&bd, sizeof(bd)
+		);
 
-	wprintf(L"Kernel says: %s\n", bd.szTest);
+		wprintf(L"Kernel says: %s\n", bd.szTest);
+	}
 
 	return 0;
 }

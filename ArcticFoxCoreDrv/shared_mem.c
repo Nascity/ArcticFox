@@ -1,8 +1,10 @@
 #include <ntifs.h>
 
+#include "../data.h"
 #include "af_assert.h"
 #include "init.h"
 #include "shared_mem.h"
+#include "process.h"
 
 HANDLE	g_SharedMemHandle;
 PVOID	g_SharedMemAddress;
@@ -48,21 +50,20 @@ InitSharedMemory(
 			SECTION_ALL_ACCESS,
 			&ObjectAttribute
 		);
-		AF_ASSERT(Status);
 	}
-	else AF_ASSERT(Status);
+	AF_ASSERT(Status);
 
 	// create map view of section
-	stViewSize = 0;
+	stViewSize = SHARED_MEM_SIZE;
 	Status = ZwMapViewOfSection(
 		g_SharedMemHandle,
-		NtCurrentProcess(),
+		ZwCurrentProcess(),
 		&g_SharedMemAddress,
 		0,
 		SHARED_MEM_SIZE,
 		NULL,
 		&stViewSize,
-		ViewUnmap,
+		ViewShare,
 		0,
 		PAGE_READWRITE
 	);
@@ -102,9 +103,8 @@ InitSharedMemoryEvent(
 			EVENT_ALL_ACCESS,
 			&ObjectAttribute
 		);
-		AF_ASSERT(Status);
 	}
-	else AF_ASSERT(Status);
+	AF_ASSERT(Status);
 
 	return STATUS_SUCCESS;
 }
@@ -121,6 +121,11 @@ WriteToSharedMem(
 		stRealSize = SHARED_MEM_SIZE;
 	else
 		stRealSize = stWriteSize;
+
+	RtlZeroMemory(
+		g_SharedMemAddress,
+		SHARED_MEM_SIZE
+	);
 
 	RtlCopyMemory(
 		pData,
@@ -148,4 +153,27 @@ CleanUpSharedMemoryEvent(
 )
 {
 	return ZwClose(g_SharedMemEventHandle);
+}
+
+VOID
+ProcessActivityLogger(
+	PVOID	Context
+)
+{
+	PARCTIC_FOX_WORK_ITEM	FoxWorkItem;
+
+	FoxWorkItem = (PARCTIC_FOX_WORK_ITEM)Context;
+
+	if (g_SharedMemAddress)
+	{
+		WriteToSharedMem(
+			&FoxWorkItem->Behaviour,
+			sizeof(BEHAVIOUR_DATA)
+		);
+	}
+
+	ExFreePoolWithTag(
+		FoxWorkItem,
+		FOX_WORK_ITEM_TAG
+	);
 }
