@@ -15,9 +15,15 @@ wmain(
 
 	// initialize stuff
 	if (!InitEvent())
+	{
+		wprintf(L"InitEvent %d\n", GetLastError());
 		return -1;
+	}
 	if (!InitSharedMem())
+	{
+		wprintf(L"InitSharedMem %d\n", GetLastError());
 		return -2;
+	}
 
 	ReadFromSharedMem(
 		&bd, sizeof(bd)

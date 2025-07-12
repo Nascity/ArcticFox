@@ -17,6 +17,9 @@ ArcticFoxUnload(
 	PsSetCreateProcessNotifyRoutine(
 		ProcessNotify, TRUE
 	);
+
+	NT_ASSERT(NT_SUCCESS(CleanUpSharedMemoryEvent()));
+	NT_ASSERT(NT_SUCCESS(CleanUpSharedMemory()));
 }
 
 NTSTATUS

@@ -48,5 +48,5 @@ ReadFromSharedMem(
 		stBufferSize
 	);
 
-	ResetEvent();
+	ResetEvent2();
 }

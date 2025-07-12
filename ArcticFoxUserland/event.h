@@ -15,6 +15,6 @@ WaitForEvent(
 );
 
 VOID
-ResetEvent(
+ResetEvent2(
 	VOID
 );

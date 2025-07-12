@@ -11,7 +11,8 @@ InitEvent(
 {
 	// create event object
 	g_SharedMemEvent = OpenEventW(
-		SYNCHRONIZE, FALSE, EVENT_NAME
+		SYNCHRONIZE | EVENT_MODIFY_STATE,
+		FALSE, EVENT_NAME
 	);
 
 	if (g_SharedMemEvent == NULL)
@@ -38,7 +39,7 @@ WaitForEvent(
 }
 
 VOID
-ResetEvent(
+ResetEvent2(
 	VOID
 )
 {

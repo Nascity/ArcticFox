@@ -1,5 +1,3 @@
-#include <Ntddk.h>
-#include <wdm.h>
 #include <ntifs.h>
 
 #include "af_assert.h"
@@ -55,6 +53,8 @@ InitSharedMemory(
 		PAGE_READWRITE
 	);
 	AF_ASSERT(Status);
+
+	return TRUE;
 }
 
 NTSTATUS
@@ -100,4 +100,25 @@ WriteToSharedMem(
 		g_SharedMemAddress,
 		stRealSize
 	);
+
+	ZwSetEvent(
+		g_SharedMemEventHandle,
+		NULL
+	);
+}
+
+NTSTATUS
+CleanUpSharedMemory(
+	VOID
+)
+{
+	return ZwClose(g_SharedMemHandle);
+}
+
+NTSTATUS
+CleanUpSharedMemoryEvent(
+	VOID
+)
+{
+	return ZwClose(g_SharedMemEventHandle);
 }
