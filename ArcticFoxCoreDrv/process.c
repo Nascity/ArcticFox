@@ -16,6 +16,12 @@ ProcessNotify(
 {
 	BEHAVIOUR_DATA	bd;
 
+	DbgPrint("[AF] parent: %lld, child : %lld, (%d)",
+		(ULONG_PTR)hParent,
+		(ULONG_PTR)hChild,
+		bCreate
+	);
+
 	RtlStringCbPrintfW(
 		bd.szTest,
 		64,

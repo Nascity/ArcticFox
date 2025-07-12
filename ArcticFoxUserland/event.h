@@ -2,7 +2,7 @@
 
 #include <Windows.h>
 
-#define EVENT_NAME		L"Global\\ArcticFoxSharedMem"
+#define EVENT_NAME		L"ArcticFoxEvent"
 
 BOOL
 InitEvent(
