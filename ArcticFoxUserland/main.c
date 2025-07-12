@@ -14,16 +14,19 @@ wmain(
 	BEHAVIOUR_DATA	bd;
 
 	// initialize stuff
-	if (!InitEvent())
+	while (!InitEvent())
 	{
 		wprintf(L"InitEvent %d\n", GetLastError());
-		return -1;
+		Sleep(5000);
 	}
-	if (!InitSharedMem())
+	wprintf(L"InitEvent successful.\n");
+
+	while (!InitSharedMem())
 	{
 		wprintf(L"InitSharedMem %d\n", GetLastError());
-		return -2;
+		Sleep(5000);
 	}
+	wprintf(L"InitSharedMem successful.\n");
 
 	ReadFromSharedMem(
 		&bd, sizeof(bd)

@@ -13,13 +13,18 @@ InitSharedMemory(
 	VOID
 )
 {
-	UNICODE_STRING		usSectionName = RTL_CONSTANT_STRING(SHARED_MEM_NAME);
+	UNICODE_STRING		usSectionName;
 	LARGE_INTEGER		liMaxSize;
 	OBJECT_ATTRIBUTES	ObjectAttribute;
 	NTSTATUS			Status;
 	SIZE_T				stViewSize;
 
 	liMaxSize.QuadPart = SHARED_MEM_SIZE;
+
+	RtlInitUnicodeString(
+		&usSectionName,
+		SHARED_MEM_NAME
+	);
 
 	InitializeObjectAttributes(
 		&ObjectAttribute, &usSectionName,
@@ -36,25 +41,34 @@ InitSharedMemory(
 		SEC_COMMIT,
 		NULL
 	);
-	AF_ASSERT(Status);
+	if (Status == STATUS_OBJECT_NAME_COLLISION)
+	{
+		Status = ZwOpenSection(
+			&g_SharedMemHandle,
+			SECTION_ALL_ACCESS,
+			&ObjectAttribute
+		);
+		AF_ASSERT(Status);
+	}
+	else AF_ASSERT(Status);
 
 	// create map view of section
 	stViewSize = 0;
 	Status = ZwMapViewOfSection(
 		g_SharedMemHandle,
-		ZwCurrentProcess(),
+		NtCurrentProcess(),
 		&g_SharedMemAddress,
 		0,
-		0,
+		SHARED_MEM_SIZE,
 		NULL,
 		&stViewSize,
-		ViewShare,
+		ViewUnmap,
 		0,
 		PAGE_READWRITE
 	);
 	AF_ASSERT(Status);
 
-	return TRUE;
+	return STATUS_SUCCESS;
 }
 
 NTSTATUS
@@ -64,6 +78,7 @@ InitSharedMemoryEvent(
 {
 	UNICODE_STRING		uiEventName = RTL_CONSTANT_STRING(EVENT_NAME);
 	OBJECT_ATTRIBUTES	ObjectAttribute;
+	NTSTATUS			Status;
 
 	InitializeObjectAttributes(
 		&ObjectAttribute,
@@ -73,13 +88,25 @@ InitSharedMemoryEvent(
 		NULL
 	);
 
-	return ZwCreateEvent(
+	Status = ZwCreateEvent(
 		&g_SharedMemEventHandle,
 		EVENT_ALL_ACCESS,
 		&ObjectAttribute,
 		NotificationEvent,
 		FALSE
 	);
+	if (Status == STATUS_OBJECT_NAME_COLLISION)
+	{
+		Status = ZwOpenEvent(
+			&g_SharedMemEventHandle,
+			EVENT_ALL_ACCESS,
+			&ObjectAttribute
+		);
+		AF_ASSERT(Status);
+	}
+	else AF_ASSERT(Status);
+
+	return STATUS_SUCCESS;
 }
 
 VOID
