@@ -127,11 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="csv.c" />
     <ClCompile Include="event.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="shared_mem.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="csv.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="shared_mem.h" />
   </ItemGroup>

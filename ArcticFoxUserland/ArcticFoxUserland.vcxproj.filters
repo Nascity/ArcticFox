@@ -24,12 +24,18 @@
     <ClCompile Include="shared_mem.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="csv.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="shared_mem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="csv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

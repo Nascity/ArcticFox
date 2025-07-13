@@ -1,9 +1,53 @@
 #include <stdio.h>
 #include <Windows.h>
 
+#include "csv.h"
 #include "event.h"
 #include "shared_mem.h"
 #include "../data.h"
+
+#define TIMEOUT		10
+
+BOOL
+Init(
+	VOID
+)
+{
+	INT		i;
+
+	// initialize stuff
+	i = 0;
+	while (!InitEvent())
+	{
+		i++;
+		if (i >= TIMEOUT)
+			return FALSE;
+		Sleep(5000);
+	}
+	wprintf(L"InitEvent successful.\n");
+
+	i = 0;
+	while (!InitSharedMem())
+	{
+		i++;
+		if (i >= TIMEOUT)
+			return FALSE;
+		Sleep(5000);
+	}
+	wprintf(L"InitSharedMem successful.\n");
+
+	i = 0;
+	while (!InitCSV())
+	{
+		i++;
+		if (i >= TIMEOUT)
+			return FALSE;
+		Sleep(5000);
+	}
+	wprintf(L"InitCSV successful.\n");
+
+	return TRUE;
+}
 
 INT
 wmain(
@@ -12,21 +56,9 @@ wmain(
 )
 {
 	BEHAVIOUR_DATA	bd;
-
-	// initialize stuff
-	while (!InitEvent())
-	{
-		wprintf(L"InitEvent %d\n", GetLastError());
-		Sleep(5000);
-	}
-	wprintf(L"InitEvent successful.\n");
-
-	while (!InitSharedMem())
-	{
-		wprintf(L"InitSharedMem %d\n", GetLastError());
-		Sleep(5000);
-	}
-	wprintf(L"InitSharedMem successful.\n");
+	
+	if (!Init())
+		return -1;
 
 	while (TRUE)
 	{
@@ -34,7 +66,8 @@ wmain(
 			&bd, sizeof(bd)
 		);
 
-		wprintf(L"Kernel says: %s\n", bd.szTest);
+		WriteCSV(&bd);
+		wprintf(L"Kernel said: %s\n", bd.szCsv);
 	}
 
 	return 0;

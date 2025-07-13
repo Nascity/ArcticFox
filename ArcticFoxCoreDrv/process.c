@@ -26,16 +26,16 @@ ProcessNotify(
 	);
 	if (FoxWorkItem)
 	{
-		DbgPrint("[AF] parent: %lld, child : %lld, (%d)\n",
+		DbgPrint("[AF] PROCESS,%lld,%lld,%d\n",
 			(ULONG_PTR)hParent,
 			(ULONG_PTR)hChild,
 			bCreate
 		);
 
 		RtlStringCbPrintfW(
-			FoxWorkItem->Behaviour.szTest,
+			FoxWorkItem->Behaviour.szCsv,
 			64,
-			L"parent: %lld, child: %lld, (%d)",
+			L"PROCESS,%lld,%lld,%d\n",
 			(ULONG_PTR)hParent,
 			(ULONG_PTR)hChild,
 			bCreate

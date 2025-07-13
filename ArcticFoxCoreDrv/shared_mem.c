@@ -122,14 +122,9 @@ WriteToSharedMem(
 	else
 		stRealSize = stWriteSize;
 
-	RtlZeroMemory(
-		g_SharedMemAddress,
-		SHARED_MEM_SIZE
-	);
-
 	RtlCopyMemory(
-		pData,
 		g_SharedMemAddress,
+		pData,
 		stRealSize
 	);
 
