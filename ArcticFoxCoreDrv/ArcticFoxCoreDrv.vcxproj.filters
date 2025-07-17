@@ -31,6 +31,9 @@
     <ClInclude Include="shared_mem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -40,6 +43,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="process.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="helper.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

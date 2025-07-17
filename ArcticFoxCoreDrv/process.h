@@ -7,12 +7,12 @@
 typedef struct
 {
 	WORK_QUEUE_ITEM		WorkItem;
-	BEHAVIOUR_DATA		Behaviour;
+	BEHAVIOUR_DATA		Behavior;
 }	ARCTIC_FOX_WORK_ITEM, *PARCTIC_FOX_WORK_ITEM;
 
 VOID
-ProcessNotify(
-	HANDLE	hParent,
-	HANDLE	hChild,
-	BOOLEAN	bCreate
+ProcessNotifyRoutine(
+	PEPROCESS 	Process,
+	HANDLE		ProcessId,
+	PPS_CREATE_NOTIFY_INFO	CreateInfo
 );

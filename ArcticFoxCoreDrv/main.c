@@ -14,12 +14,14 @@ ArcticFoxUnload(
 	UNREFERENCED_PARAMETER(DriverObject);
 
 	// remove the notify routine
-	PsSetCreateProcessNotifyRoutine(
-		ProcessNotify, TRUE
+	PsSetCreateProcessNotifyRoutineEx(
+		ProcessNotifyRoutine, TRUE
 	);
 
 	NT_ASSERT(NT_SUCCESS(CleanUpSharedMemoryEvent()));
 	NT_ASSERT(NT_SUCCESS(CleanUpSharedMemory()));
+
+	DbgPrint("[AF] Driver unloaded.\n");
 }
 
 NTSTATUS
@@ -46,8 +48,8 @@ DriverEntry(
 	DbgPrint("[AF] Event initialized.\n");
 
 	// register the notify function
-	Status = PsSetCreateProcessNotifyRoutine(
-		ProcessNotify, FALSE
+	Status = PsSetCreateProcessNotifyRoutineEx(
+		ProcessNotifyRoutine, FALSE
 	);
 	AF_ASSERT(Status);
 	DbgPrint("[AF] Process notify routine registered.\n");

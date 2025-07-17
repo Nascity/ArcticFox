@@ -55,7 +55,7 @@ wmain(
 	LPWSTR	argv[]
 )
 {
-	BEHAVIOUR_DATA	bd;
+	BEHAVIOUR_DATA	bd = { 0, };
 	
 	if (!Init())
 		return -1;
@@ -67,7 +67,6 @@ wmain(
 		);
 
 		WriteCSV(&bd);
-		wprintf(L"Kernel said: %s\n", bd.szCsv);
 	}
 
 	return 0;

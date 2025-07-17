@@ -162,7 +162,7 @@ ProcessActivityLogger(
 	if (g_SharedMemAddress)
 	{
 		WriteToSharedMem(
-			&FoxWorkItem->Behaviour,
+			&FoxWorkItem->Behavior,
 			sizeof(BEHAVIOUR_DATA)
 		);
 	}
