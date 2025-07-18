@@ -6,7 +6,7 @@
 
 typedef struct
 {
-	enum { PROCESS_BEHAVIOUR } DataType;
+	enum { PROCESS_BEHAVIOUR, TRACK_PROCESS } DataType;
 	union
 	{
 		struct
@@ -16,5 +16,10 @@ typedef struct
 			wchar_t	szImageFileName[IMAGE_FILE_NAME_LEN];
 			wchar_t	szCommandLine[COMMAND_LINE_LEN];
 		} ProcessData;
+
+		struct
+		{
+			unsigned int	dwProcessId;
+		} TrackProcessData;
 	} Data;
 }	BEHAVIOUR_DATA, *PBEHAVIOUR_DATA;

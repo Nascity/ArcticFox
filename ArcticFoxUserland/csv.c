@@ -31,12 +31,11 @@ WriteCSV(
 )
 {
 	WCHAR	szBuffer[BEHAVIOUR_DATA_SIZE];
-	INT		iCount = 0;
 	
 	if (pbd->DataType == PROCESS_BEHAVIOUR)
 	{
 		// parent PID, child PID, image file name, cmdline
-		iCount = swprintf(
+		swprintf(
 			szBuffer,
 			BEHAVIOUR_DATA_SIZE,
 			L"PROCESS,%lld,%lld,%s,%s\n",
@@ -46,13 +45,22 @@ WriteCSV(
 			pbd->Data.ProcessData.szCommandLine
 		);
 	}
+	else if (pbd->DataType == TRACK_PROCESS)
+	{
+		swprintf(
+			szBuffer,
+			BEHAVIOUR_DATA_SIZE,
+			L"TRACK,%ud\n",
+			pbd->Data.TrackProcessData.dwProcessId
+		);
+	}
 
 	wprintf(L"Kernel said: %s", szBuffer);
 
 	WriteFile(
 		hCSV,
 		szBuffer,
-		iCount,
+		wcslen(szBuffer) * sizeof(WCHAR),
 		NULL,
 		NULL
 	);

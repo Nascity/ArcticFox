@@ -3,34 +3,27 @@ import matplotlib.pyplot as plt
 
 def parse_log(filename):
     edges = []
-    deleted = set()
 
     with open(filename, 'r', encoding='utf-16-le') as f:
         for line in f:
+            print(line)
             parts = line.strip().split(',')
-            if len(parts) != 4:
+            if len(parts) != 5:
                 continue
 
-            _, parent, child, action = parts
+            _, parent, child, image, arg = parts
             parent = int(parent)
             child = int(child)
-            action = int(action)
 
-            if action == 1:
-                edges.append((parent, child))
-            elif action == 0:
-                deleted.add(child)
-    return edges, deleted
+            edges.append((parent, child))
+    return edges
 
-def draw_process_tree(edges, deleted):
+def draw_process_tree(edges):
     G = nx.DiGraph()
     G.add_edges_from(edges)
 
     node_colors = []
     for node in G.nodes():
-        if node in deleted:
-            node_colors.append('lightcoral')
-        else:
             node_colors.append('lightgreen')
 
     pos = nx.spring_layout(G)
@@ -39,5 +32,5 @@ def draw_process_tree(edges, deleted):
     plt.show()
 
 if __name__ == "__main__":
-    edges, deleted = parse_log("log.csv")
-    draw_process_tree(edges, deleted)
+    edges = parse_log("log.csv")
+    draw_process_tree(edges)

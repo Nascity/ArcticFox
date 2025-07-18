@@ -27,6 +27,9 @@
     <ClCompile Include="csv.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="process.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="event.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="csv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <Windows.h>
 
+#include "../data.h"
 #include "csv.h"
 #include "event.h"
 #include "shared_mem.h"
-#include "../data.h"
+#include "process.h"
 
 #define TIMEOUT		10
 
@@ -59,6 +60,9 @@ wmain(
 	
 	if (!Init())
 		return -1;
+
+	if (argc == 2)
+		TrackProcess(argv[1]);
 
 	while (TRUE)
 	{
